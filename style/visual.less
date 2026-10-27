@@ -1,0 +1,308 @@
+// メジャーのスライサー。形と既定の色は標準の数値の範囲スライサー（指定の値の間）に合わせる。
+// 部品の色は操作の部品の CSS 変数（shared/controls.ts の controlVars）、スライダーの色と大きさは書式ペインの値（--ms-*。App が置く）から取る
+.ms-root {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    // 上下左右の位置は、Desktop で標準と同じ 300×200 に並べて合わせた（上は 10 あけると標準より 10〜13 下がった。
+    // 右はつまみの右端を標準と同じ位置にするため、左より狭い）
+    padding: 0 4px 4px 8px;
+    overflow: hidden;
+    color: var(--ctl-text);
+    // Windows のハイコントラストでは、ブラウザーが地の色を消して枠を系統の色にした（線が消え、入力欄の枠が黄色）。
+    // 色は Power BI のハイコントラストの前景色・背景色を自分で塗る（lookOf・controlColorsOf）
+    forced-color-adjust: none;
+    font-family: "Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif;
+    font-size: 12px;
+    user-select: none;
+}
+
+// 見出しから入力欄までは、Desktop で標準と並べて合わせた（11 では入力欄が標準より 4 下がった）
+.ms-header {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0 0 7px;
+}
+
+.ms-header-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// 標準の消しゴム（選択のクリア）と同じく、マウスを乗せたときだけ見せる
+.ms-clear {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: none;
+    border-radius: var(--ctl-radius);
+    background: none;
+    color: var(--ctl-text);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity var(--ctl-transition), background-color var(--ctl-transition);
+
+    .ms-root:hover &,
+    .ms-root:focus-within & {
+        opacity: 1;
+    }
+
+    &:hover {
+        background: var(--ctl-hover);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--ctl-focus);
+        outline-offset: 1px;
+    }
+}
+
+.ms-inputs {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+// 幅は標準と同じ 74 で固定し、ビジュアルを広げても伸ばさない。角は四角、枠は薄い灰で、乗せる・選ぶと 2px の濃い枠
+.ms-input {
+    box-sizing: border-box;
+    flex: 0 1 74px;
+    width: 74px;
+    min-width: 0;
+    height: 25px;
+    padding: 0 7px;
+    border: 1px solid var(--ms-input-border, var(--ctl-selected));
+    border-radius: 0;
+    background: var(--ctl-bg);
+    color: var(--ctl-text);
+    font: inherit;
+    user-select: text;
+
+    &:hover:not(:disabled),
+    &:focus {
+        border-color: var(--ctl-text);
+        outline: 1px solid var(--ctl-text);
+        outline-offset: -2px;
+    }
+
+    &::placeholder {
+        color: var(--ctl-subtle);
+    }
+}
+
+.ms-slider {
+    position: relative;
+    height: var(--ms-handle-size);
+    margin-top: 8px;
+
+    .ms-rail {
+        position: absolute;
+        top: 50%;
+        left: calc(var(--ms-handle-size) / 2);
+        right: calc(var(--ms-handle-size) / 2);
+    }
+
+    .ms-track,
+    .ms-fill {
+        position: absolute;
+        // 標準の線の太さ（Desktop で約 2.4）に合わせる
+        top: -1.5px;
+        height: 3px;
+    }
+
+    .ms-track {
+        left: 0;
+        right: 0;
+        background: var(--ms-track);
+    }
+
+    .ms-fill {
+        background: var(--ms-selected);
+    }
+
+    input[type="range"] {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        background: none;
+        pointer-events: none;
+        appearance: none;
+
+        // 入力の枠は線全体を囲み、重なったつまみのどちらにあるか分からない。つまみだけに枠を出す（下の focus-visible）
+        &:focus {
+            outline: none;
+        }
+
+        &::-webkit-slider-runnable-track {
+            height: 100%;
+            background: none;
+        }
+
+        &::-webkit-slider-thumb {
+            box-sizing: border-box;
+            width: var(--ms-handle-size);
+            height: var(--ms-handle-size);
+            border: 2px solid var(--ms-handle-border);
+            border-radius: 50%;
+            background: var(--ms-handle-fill);
+            pointer-events: auto;
+            cursor: pointer;
+            appearance: none;
+        }
+
+        &::-moz-range-thumb {
+            box-sizing: border-box;
+            width: var(--ms-handle-size);
+            height: var(--ms-handle-size);
+            border: 2px solid var(--ms-handle-border);
+            border-radius: 50%;
+            background: var(--ms-handle-fill);
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        &:not(:disabled)::-webkit-slider-thumb:hover {
+            border-color: var(--ctl-text);
+        }
+
+        &:not(:disabled)::-moz-range-thumb:hover {
+            border-color: var(--ctl-text);
+        }
+
+        &:focus-visible::-webkit-slider-thumb {
+            outline: 2px solid var(--ctl-focus);
+            outline-offset: 1px;
+        }
+
+        &:focus-visible::-moz-range-thumb {
+            outline: 2px solid var(--ctl-focus);
+            outline-offset: 1px;
+        }
+    }
+}
+
+.ms-status {
+    margin-top: 2px;
+    color: var(--ctl-subtle);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ms-empty {
+    color: var(--ctl-subtle);
+}
+
+.ms-label {
+    flex: none;
+}
+
+// ハイコントラストでは線も選んだ範囲も前景色になるので、選んだ範囲の外の線を細くして分ける
+.ms-hc .ms-slider .ms-track {
+    top: -0.5px;
+    height: 1px;
+}
+
+// 分布（標準に無い）。スライダーの線と同じ左右の位置に置く
+.ms-dist {
+    position: relative;
+    height: 30px;
+    margin: 10px calc(var(--ms-handle-size) / 2) 0;
+    // 端の点は半分が線の外に出る（つまみの中心と同じ位置）。積む段は App で上限に丸める
+
+    .ms-bar {
+        position: absolute;
+        bottom: 0;
+        border-radius: 1px 1px 0 0;
+        background: var(--ms-dist-dropped);
+        overflow: hidden;
+    }
+
+    .ms-bar-kept {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--ms-dist-kept);
+    }
+
+    .ms-point {
+        position: absolute;
+        box-sizing: border-box;
+        margin-left: -3.5px;
+        border: 1.5px solid var(--ms-dist-dropped);
+        border-radius: 50%;
+        background: var(--ctl-bg);
+    }
+
+    // ハイコントラスト：合う値は前景色で塗り、合わない値は前景色の枠だけ
+    &.ms-outline .ms-bar {
+        box-sizing: border-box;
+        border: 1px solid var(--ms-dist-dropped);
+        border-bottom: none;
+        background: var(--ctl-bg);
+    }
+
+    .ms-point.ms-kept {
+        border-color: var(--ms-dist-kept);
+        background: var(--ms-dist-kept);
+    }
+}
+
+// 分布のすぐ下のスライダーは、上のあきを詰める
+.ms-dist + .ms-slider {
+    margin-top: 2px;
+}
+
+// つまみの上の現在値（標準に無い）。Web の部品（MUI・Ant Design・Mantine）の吹き出しにならう
+.ms-value-label {
+    position: absolute;
+    bottom: calc(100% + 4px);
+    transform: translateX(-50%);
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--ctl-text);
+    color: var(--ctl-bg);
+    font-size: 11px;
+    line-height: 16px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 2;
+
+    // 線の端の近くでは、ビジュアルの枠で切れないよう、吹き出しをつまみの中心から内側へずらす（三角はつまみを指したまま）
+    &.ms-start {
+        transform: translateX(calc(var(--ms-handle-size) / -2));
+
+        &::after {
+            left: calc(var(--ms-handle-size) / 2);
+        }
+    }
+
+    &.ms-end {
+        transform: translateX(calc(-100% + var(--ms-handle-size) / 2));
+
+        &::after {
+            left: calc(100% - var(--ms-handle-size) / 2);
+        }
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -4px;
+        border: 4px solid transparent;
+        border-top-color: var(--ctl-text);
+    }
+}

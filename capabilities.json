@@ -1,0 +1,382 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "フィールド",
+            "description": "絞り込みを掛ける列（製品など）。ページのほかのビジュアルには、この列への絞り込みとして効く",
+            "name": "category",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "値",
+            "description": "列の値ごとに測る値（利益率など）。この値の範囲で列の値を絞る",
+            "name": "measure",
+            "kind": "Measure"
+        }
+    ],
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "category": {
+                        "max": 1
+                    },
+                    "measure": {
+                        "max": 1
+                    }
+                }
+            ],
+            "categorical": {
+                "categories": {
+                    "for": {
+                        "in": "category"
+                    },
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 30000
+                        }
+                    }
+                },
+                "values": {
+                    "select": [
+                        {
+                            "bind": {
+                                "to": "measure"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "objects": {
+        "general": {
+            "properties": {
+                "filter": {
+                    "type": {
+                        "filter": true
+                    }
+                }
+            }
+        },
+        "range": {
+            "properties": {
+                "from": {
+                    "type": {
+                        "numeric": true
+                    },
+                    "filterState": true
+                },
+                "to": {
+                    "type": {
+                        "numeric": true
+                    },
+                    "filterState": true
+                },
+                "count": {
+                    "type": {
+                        "numeric": true
+                    },
+                    "filterState": true
+                }
+            }
+        },
+        "slicerSettings": {
+            "displayName": "スライサーの設定",
+            "properties": {
+                "style": {
+                    "displayName": "スタイル",
+                    "type": {
+                        "enumeration": []
+                    }
+                },
+                "exclude": {
+                    "displayName": "合うものを除く",
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "header": {
+            "displayName": "スライサー ヘッダー",
+            "properties": {
+                "show": {
+                    "displayName": "スライサー ヘッダー",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "titleText": {
+                    "displayName": "タイトル テキスト",
+                    "type": {
+                        "text": true
+                    }
+                },
+                "fontFamily": {
+                    "displayName": "フォント",
+                    "type": {
+                        "formatting": {
+                            "fontFamily": true
+                        }
+                    }
+                },
+                "fontSize": {
+                    "displayName": "文字サイズ",
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "bold": {
+                    "displayName": "太字",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "italic": {
+                    "displayName": "斜体",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "underline": {
+                    "displayName": "下線",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "fontColor": {
+                    "displayName": "フォントの色",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "borderTop": {
+                    "displayName": "上",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "borderBottom": {
+                    "displayName": "下",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "borderLeft": {
+                    "displayName": "左",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "borderRight": {
+                    "displayName": "右",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "borderColor": {
+                    "displayName": "カラー",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "borderWidth": {
+                    "displayName": "線の幅",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "background": {
+                    "displayName": "カラー",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "values": {
+            "displayName": "値",
+            "properties": {
+                "fontFamily": {
+                    "displayName": "フォント",
+                    "type": {
+                        "formatting": {
+                            "fontFamily": true
+                        }
+                    }
+                },
+                "fontSize": {
+                    "displayName": "文字サイズ",
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "bold": {
+                    "displayName": "太字",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "italic": {
+                    "displayName": "斜体",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "underline": {
+                    "displayName": "下線",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "fontColor": {
+                    "displayName": "フォントの色",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "background": {
+                    "displayName": "背景色",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "slider": {
+            "displayName": "スライダー",
+            "properties": {
+                "show": {
+                    "displayName": "スライダー",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "handleFill": {
+                    "displayName": "塗りつぶしの色",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "handleBorder": {
+                    "displayName": "罫線",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "handleSize": {
+                    "displayName": "サイズ (px)",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "selectedColor": {
+                    "displayName": "カラー",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "trackColor": {
+                    "displayName": "カラー",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "valueLabel": {
+                    "displayName": "表示",
+                    "type": {
+                        "enumeration": []
+                    }
+                }
+            }
+        },
+        "distribution": {
+            "displayName": "分布",
+            "properties": {
+                "show": {
+                    "displayName": "分布",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "shape": {
+                    "displayName": "形",
+                    "type": {
+                        "enumeration": []
+                    }
+                },
+                "keptColor": {
+                    "displayName": "条件に合う値",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "droppedColor": {
+                    "displayName": "条件に合わない値",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tooltips": {
+        "supportedTypes": {
+            "default": true,
+            "canvas": false
+        }
+    },
+    "supportsKeyboardFocus": true,
+    "supportsLandingPage": true,
+    "privileges": [],
+    "suppressDefaultTitle": true,
+    "supportsSynchronizingFilterState": true
+}

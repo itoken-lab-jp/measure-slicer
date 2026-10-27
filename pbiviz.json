@@ -1,0 +1,26 @@
+{
+  "visual": {
+    "name": "measureSlicer",
+    "displayName": "メジャーのスライサー by itoken lab",
+    "guid": "MeasureSlicer14A575336CDF41C9920BB8E089C48EB2",
+    "visualClassName": "Visual",
+    "version": "1.4.1.0",
+    "description": "メジャーの値の範囲で列の値を絞り、ページのほかのビジュアルに掛けるスライサー",
+    "supportUrl": "https://github.com/itoken-lab-jp/measure-slicer/issues",
+    "gitHubUrl": "https://github.com/itoken-lab-jp/measure-slicer"
+  },
+  "apiVersion": "5.11.1",
+  "author": {
+    "name": "itoken_lab",
+    "email": "itoken.lab.jp@gmail.com"
+  },
+  "assets": {
+    "icon": "assets/icon.png"
+  },
+  "externalJS": null,
+  "style": "style/visual.less",
+  "capabilities": "capabilities.json",
+  "dependencies": null,
+  "stringResources": [],
+  "version": "1.4.1.0"
+}
